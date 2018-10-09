@@ -16,7 +16,8 @@ class ImagesController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $items= Image::all();
+        return view('home',compact('items'));
     }
 
     /**

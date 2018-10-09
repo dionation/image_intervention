@@ -74,21 +74,17 @@
             <div class="title m-b-md">
                 Uploader
             </div>
-            <form action="images/create" method="post" enctype="multipart/form-data">
+            <form action="images/store" method="post" enctype="multipart/form-data">
                 @csrf
                 <label for="image">Image</label>
                 <input type="file" name="image" id="">
                 <button type="submit" class="btn btn-dark">Submit</button>
             </form>
 
-
-            {{-- <br> <br> <br> <br> <br>
-            <div class="links">
-                <a href="https://github.com/laravel/laravel">Home</a>
-            </div>
-            <div class="links">
-                <a href="https://github.com/laravel/laravel">Upload</a>
-            </div> --}}
+            @foreach ($items as $item)
+            
+             <img src="images/thumbnails/{{$item->name}}" alt="">
+            @endforeach
         </div>
     </div>
 </body>
