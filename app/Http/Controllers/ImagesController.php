@@ -39,13 +39,21 @@ class ImagesController extends Controller
     {
         $image = $request->file('image');
         $filename = time().$image->hashName();
-        $resize = ImageIntervention::make($image)->resize(100, 100);
-        $resize->save('images/'.$filename);
+        
 
+        // original
+        $original = ImageIntervention::make($image);
+        $original->save('images/originals/'.$filename);
+
+        // resizer
+        $resize = ImageIntervention::make($image)->resize(100, 100);
+        $resize->save('images/thumbnails/'.$filename);
+
+        // record in db
         $table = new Image;
         $table->name = $filename;
         $table->save();
-        
+
         return redirect()->back();
 
     }
