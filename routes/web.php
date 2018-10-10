@@ -14,4 +14,4 @@
 
 Route::get('/', 'ImagesController@index');
 Route::post('/images/store', 'ImagesController@store');
-Route::post('/images/delete', 'ImagesController@destroy');
+Route::post('/images/delete/{id}', 'ImagesController@destroy');

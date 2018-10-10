@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-// use Intervention\Image\ImageManager;
+
 use ImageIntervention;
 use App\Image;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class ImagesController extends Controller
 {
     /**
@@ -41,19 +41,22 @@ class ImagesController extends Controller
         $image = $request->file('image');
         $filename = time().$image->hashName();
         
+        
 
         // original
         $original = ImageIntervention::make($image);
-        $original->save('images/originals/'.$filename);
+        $original->save('storage/images/originals/'.$filename);
+        // Storage::put('public/images/originals/'.$filename, $original);
 
         // resizer
         $resize = ImageIntervention::make($image)->resize(100, 100);
-        $resize->save('images/thumbnails/'.$filename);
-
+        $resize->save('storage/images/thumbnails/'.$filename);
+        // Storage::put('public/images/thumbnails/'.$filename, $resize);
         // record in db
         $table = new Image;
         $table->name = $filename;
         $table->save();
+      
 
         return redirect()->back();
 
@@ -99,8 +102,12 @@ class ImagesController extends Controller
      * @param  \App\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy($id,Image $image)
     {
-        //
+        $item = Image::find($id);
+        Storage::disk('local')->delete('public/images/thumbnails/'.$item->name);
+        Storage::disk('local')->delete('public/images/originals/'.$item->name);
+        $item->delete();
+        return redirect()->back();
     }
 }

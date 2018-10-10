@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
-
+<link rel="stylesheet" href="{{URL::asset('css/app.css')}}">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 
@@ -82,8 +82,13 @@
             </form>
 
             @foreach ($items as $item)
-            
-             <img src="images/thumbnails/{{$item->name}}" alt="">
+            <div class="float-left">
+                <img src="storage/images/thumbnails/{{$item->name}}" alt="">
+                <form action="/images/delete/{{$item->id}}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">DEL</button>
+                </form>
+            </div>
             @endforeach
         </div>
     </div>
